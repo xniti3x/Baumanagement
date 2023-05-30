@@ -4,6 +4,10 @@ $cv = $this->controller->view_data["custom_values"];
 
 <script>
     $(function () {
+
+        <?php $this->layout->load_view('bauvorhaben/script_select2_bauvorhaben_id.js'); ?>
+
+
         $('.item-task-id').each(function () {
             // Disable client chaning if at least one item already has a task id assigned
             if ($(this).val().length > 0) {
@@ -15,6 +19,13 @@ $cv = $this->controller->view_data["custom_values"];
         $('.btn_add_product').click(function () {
             $('#modal-placeholder').load(
                 "<?php echo site_url('products/ajax/modal_product_lookups'); ?>/" + Math.floor(Math.random() * 1000)
+            );
+        });
+
+        $('#btn_add_bauvorhaben').click(function () {
+            $('#modal-placeholder').load(
+                "<?php echo site_url('bauvorhaben/ajax/modal_bauvorhaben_lookups/' . $invoice_id); ?>/" +
+                Math.floor(Math.random() * 1000)
             );
         });
 
@@ -50,9 +61,10 @@ $cv = $this->controller->view_data["custom_values"];
         });
 
         $('#btn_save_invoice').click(function () {
+
             var items = [];
             var item_order = 1;
-            $('#item_table .item').each(function () {
+            $('table tbody.item').each(function () {
                 var row = {};
                 $(this).find('input,select,textarea').each(function () {
                     if ($(this).is(':checkbox')) {
@@ -78,6 +90,8 @@ $cv = $this->controller->view_data["custom_values"];
                     invoice_terms: $('#invoice_terms').val(),
                     custom: $('input[name^=custom],select[name^=custom]').serializeArray(),
                     payment_method: $('#payment_method').val(),
+                    bauvorhaben: $('#select_bauvorhaben').val(),
+
                 },
                 function (data) {
                     <?php echo(IP_DEBUG ? 'console.log(data);' : ''); ?>
@@ -127,39 +141,20 @@ $cv = $this->controller->view_data["custom_values"];
                 });
         });
 
-        <?php if ($invoice->is_read_only != 1):
-          if (get_setting('show_responsive_itemlist') == 1) { ?>
-             function UpR(k) {
-               var parent = k.parents('.item');
-               var pos = parent.prev();
-               parent.insertBefore(pos);
-             }
-             function DownR(k) {
-               var parent = k.parents('.item');
-               var pos = parent.next();
-               parent.insertAfter(pos);
-             }
-             $(document).on('click', '.up', function () {
-               UpR($(this));
-             });
-             $(document).on('click', '.down', function () {
-               DownR($(this));
-             });
-        <?php } else { ?>
-            var fixHelper = function (e, tr) {
-                var $originals = tr.children();
-                var $helper = tr.clone();
-                $helper.children().each(function (index) {
-                    $(this).width($originals.eq(index).width());
-                });
-                return $helper;
-            };
-
-            $('#item_table').sortable({
-                items: 'tbody',
-                helper: fixHelper,
+        <?php if ($invoice->is_read_only != 1): ?>
+        var fixHelper = function (e, tr) {
+            var $originals = tr.children();
+            var $helper = tr.clone();
+            $helper.children().each(function (index) {
+                $(this).width($originals.eq(index).width());
             });
-        <?php } ?>
+            return $helper;
+        };
+
+        $('#item_table').sortable({
+            items: 'tbody',
+            helper: fixHelper,
+        });
 
         if ($('#invoice_discount_percent').val().length > 0) {
             $('#invoice_discount_amount').prop('disabled', true);
@@ -244,7 +239,7 @@ if ($this->config->item('disable_read_only') == true) {
                            data-invoice-id="<?php echo $invoice_id; ?>"
                            data-invoice-balance="<?php echo $invoice->invoice_balance; ?>"
                            data-invoice-payment-method="<?php echo $invoice->payment_method; ?>"
-                           data-payment-cf-exist="<?php echo $payment_cf_exist ?? ''; ?>">
+                           data-payment-cf-exist="<?php echo $payment_cf_exist; ?>">
                             <i class="fa fa-credit-card fa-margin"></i>
                             <?php _trans('enter_payment'); ?>
                         </a>
@@ -471,7 +466,7 @@ if ($this->config->item('disable_read_only') == true) {
                                     </select>
                                 </div>
 
-                                <div class="invoice-properties">
+                                <div class="hidden invoice-properties">
                                     <label><?php _trans('invoice_password'); ?></label>
                                     <input type="text" id="invoice_password" class="form-control input-sm"
                                            value="<?php _htmlsc($invoice->invoice_password); ?>"
@@ -479,6 +474,24 @@ if ($this->config->item('disable_read_only') == true) {
                                             echo 'disabled="disabled"';
                                         } ?>>
                                 </div>
+                                <div class="invoice-properties">
+                                <div class="form-group has-feedback">
+                                    <a id="btn_add_bauvorhaben" class="btn"><i class="fa fa-plus"></i></a>
+                                    <label for="select_bauvorhaben"><?php _trans('bauvorhaben'); ?></label>
+                                    <div class="input-group">
+
+                                        <select name="bauvorhaben_id" id="select_bauvorhaben" class="bauvorhaben-id-select form-control"
+                                                autofocus="autofocus">
+                                            <?php   if (!empty($bauvorhaben)) : ?>
+                                                <option value="<?php echo($bauvorhaben[0]->id); ?>"><?php _htmlsc($bauvorhaben[0]->bezeichnung); ?></option>
+                                            <?php endif; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                </div>
+
+
+
                             </div>
 
                             <?php if ($invoice->invoice_status_id != 1) { ?>
@@ -505,12 +518,7 @@ if ($this->config->item('disable_read_only') == true) {
 
             <br>
 
-            <?php if (get_setting('show_responsive_itemlist') == 1) {
-                    $this->layout->load_view('invoices/partial_itemlist_responsive');
-                  } else {
-                    $this->layout->load_view('invoices/partial_itemlist_table');
-                  }
-            ?>
+            <?php $this->layout->load_view('invoices/partial_item_table'); ?>
 
             <hr/>
 

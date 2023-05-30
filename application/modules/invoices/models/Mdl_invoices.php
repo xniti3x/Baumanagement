@@ -66,7 +66,7 @@ class Mdl_Invoices extends Response_Model
             ip_invoice_amounts.invoice_sign AS invoice_sign,
             (CASE WHEN ip_invoices.invoice_status_id NOT IN (1,4) AND DATEDIFF(NOW(), invoice_date_due) > 0 THEN 1 ELSE 0 END) is_overdue,
             DATEDIFF(NOW(), invoice_date_due) AS days_overdue,
-            (CASE (SELECT COUNT(*) FROM ip_invoices_recurring WHERE ip_invoices_recurring.invoice_id = ip_invoices.invoice_id and ip_invoices_recurring.recur_next_date IS NOT NULL) WHEN 0 THEN 0 ELSE 1 END) AS invoice_is_recurring,
+            (CASE (SELECT COUNT(*) FROM ip_invoices_recurring WHERE ip_invoices_recurring.invoice_id = ip_invoices.invoice_id and ip_invoices_recurring.recur_next_date <> '1970-01-01') WHEN 0 THEN 0 ELSE 1 END) AS invoice_is_recurring,
             ip_invoices.*", false);
     }
 
@@ -579,41 +579,6 @@ class Mdl_Invoices extends Response_Model
                     $this->db->update('ip_invoices');
                 }
             }
-        }
-    }
-
-    /**
-     * Update the invoice date and due date
-     * @param $invoice_id
-     */
-    public function update_invoice_due_dates($invoice_id)
-    {
-        $invoice = $this->get_by_id($invoice_id);
-        
-        if (!empty($invoice)) {
-						$invoice_date_created = date_to_mysql(date(date_format_setting()));          
-            $this->db->where('invoice_id', $invoice_id);
-            $this->db->set('invoice_date_created', $invoice_date_created);
-            $this->db->set('invoice_date_due', $this->get_date_due($invoice_date_created));            
-            $this->db->update('ip_invoices');
-        }
-    }
-
-    /**
-	 * Reset the invoice and due date to there former values 
-     * @param $invoice_id
-	 * @param $org_invoice_date
-	 * @param $org_due_date
-     */
-    public function reset_invoice_due_dates($invoice_id, $org_invoice_date, $org_due_date)
-    {
-        $invoice = $this->get_by_id($invoice_id);
-        
-        if (!empty($invoice)) {        
-            $this->db->where('invoice_id', $invoice_id);
-            $this->db->set('invoice_date_created', $org_invoice_date);
-            $this->db->set('invoice_date_due', $org_due_date);            
-            $this->db->update('ip_invoices');
         }
     }
 
