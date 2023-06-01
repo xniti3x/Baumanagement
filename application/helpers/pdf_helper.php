@@ -28,6 +28,7 @@ function generate_invoice_pdf($invoice_id, $stream = true, $invoice_template = n
     $CI->load->model('invoices/mdl_invoice_tax_rates');
     $CI->load->model('custom_fields/mdl_custom_fields');
     $CI->load->model('payment_methods/mdl_payment_methods');
+    $CI->load->model('bauvorhaben/mdl_bauvorhaben');
 
     $CI->load->helper('country');
     $CI->load->helper('client');
@@ -97,6 +98,7 @@ function generate_invoice_pdf($invoice_id, $stream = true, $invoice_template = n
         'output_type' => 'pdf',
         'show_item_discounts' => $show_item_discounts,
         'custom_fields' => $custom_fields,
+        'bauvorhaben' => $CI->mdl_bauvorhaben->getDataById($invoice->bauvorhaben_id),
     );
 
     $html = $CI->load->view('invoice_templates/pdf/' . $invoice_template, $data, true);
