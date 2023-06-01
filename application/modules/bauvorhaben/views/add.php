@@ -4,7 +4,7 @@
            value="<?php echo $this->security->get_csrf_hash() ?>">
 
     <div id="headerbar">
-        <h1 class="headerbar-title"><?php _trans('construction_project_add'); ?></h1>
+        <h1 class="headerbar-title"><?php _trans('add_construction_project'); ?></h1>
         <?php $this->layout->load_view('layout/header_buttons'); ?>
     </div>
 <br>
