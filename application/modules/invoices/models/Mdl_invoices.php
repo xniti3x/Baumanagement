@@ -478,6 +478,12 @@ class Mdl_Invoices extends Response_Model
         return $this;
     }
 
+    public function is_13b()
+    {
+        $this->filter_where_in('ip_invoice_amounts.invoice_item_tax_total', '0');
+        return $this;
+    }
+
     public function is_sent()
     {
         $this->filter_where('invoice_status_id', 2);

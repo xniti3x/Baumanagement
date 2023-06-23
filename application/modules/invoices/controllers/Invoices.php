@@ -45,6 +45,9 @@ class Invoices extends Admin_Controller
             case 'draft':
                 $this->mdl_invoices->is_draft();
                 break;
+            case '13b':
+                $this->mdl_invoices->is_13b();
+                break;
             case 'sent':
                 $this->mdl_invoices->is_sent();
                 break;
