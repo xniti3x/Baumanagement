@@ -97,6 +97,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="<?php echo site_url('invoices/generate_pdf/' . $invoice->invoice_id.'/true/13b_InvoicePlane'); ?>"
+                                   target="_blank">
+                                    <i class="fa fa-print fa-margin"></i> 13b <?php _trans('download_pdf'); ?>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="<?php echo site_url('mailer/invoice/' . $invoice->invoice_id); ?>">
                                     <i class="fa fa-send fa-margin"></i> <?php _trans('send_email'); ?>
                                 </a>
