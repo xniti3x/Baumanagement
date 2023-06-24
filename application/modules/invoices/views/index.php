@@ -24,7 +24,7 @@
             </a>
             <a href="<?php echo site_url('invoices/status/draft'); ?>"
                class="btn  <?php echo $status == 'draft' ? 'btn-primary' : 'btn-default' ?>">
-                <?php _trans('draft'); ?>
+                <?php _trans('open'); ?>
             </a>
             <a href="<?php echo site_url('invoices/status/sent'); ?>"
                class="btn  <?php echo $status == 'sent' ? 'btn-primary' : 'btn-default' ?>">
@@ -62,7 +62,7 @@
                 </a>
                 <a href="<?php echo site_url('invoices/status/draft'); ?>"
                    class="btn  <?php echo $status == 'draft' ? 'btn-primary' : 'btn-default' ?>">
-                    <?php _trans('draft'); ?>
+                    <?php _trans('open'); ?>
                 </a>
                 <a href="<?php echo site_url('invoices/status/sent'); ?>"
                    class="btn  <?php echo $status == 'sent' ? 'btn-primary' : 'btn-default' ?>">

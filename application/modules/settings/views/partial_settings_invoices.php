@@ -359,6 +359,9 @@
                             </label>
                             <select name="settings[read_only_toggle]" id="settings[read_only_toggle]"
                                 class="form-control simple-select" data-minimum-results-for-search="Infinity">
+                                <option value="0" <?php check_select(get_setting('read_only_toggle'), '0'); ?>>
+                                    <?php _trans('never'); ?>
+                                </option>
                                 <option value="2" <?php check_select(get_setting('read_only_toggle'), '2'); ?>>
                                     <?php _trans('sent'); ?>
                                 </option>
