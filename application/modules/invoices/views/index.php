@@ -84,6 +84,10 @@
                    class="btn  <?php echo $status == 'overdue' ? 'btn-primary' : 'btn-default' ?>">
                     <?php _trans('overdue'); ?>
                 </a>
+                <a href="<?php echo site_url('invoices/status/13b'); ?>"
+                    class="btn  <?php echo $status == '13b' ? 'btn-primary' : 'btn-default' ?>">
+                    <?php _trans('13b'); ?>
+                </a>
             </div>
         </div>
 
