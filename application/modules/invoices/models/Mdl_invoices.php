@@ -474,7 +474,7 @@ class Mdl_Invoices extends Response_Model
 
     public function is_draft()
     {
-        $this->filter_where_in('invoice_status_id', array(1, 2));
+        $this->filter_where_in('invoice_status_id', array(1, 2, 3));
         return $this;
     }
 
