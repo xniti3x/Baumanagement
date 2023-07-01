@@ -49,7 +49,12 @@
                         <li><?php echo anchor('invoices/recurring/index', trans('view_recurring_invoices')); ?></li>
                     </ul>
                 </li>
-
+                <li class="dropdown">
+                    <a href="<?php echo base_url().'uploads/customer_files/VOB_Baurechtvertrag.pdf'; ?>" target="_blank">
+                        <span class="hidden-md"><?php _trans('Bauvertrag'); ?></span>
+                        <i class="visible-md-inline fa fa-file-text"></i>
+                    </a>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-caret-down"></i> &nbsp;
