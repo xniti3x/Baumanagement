@@ -50,7 +50,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="<?php echo base_url().'uploads/customer_files/VOB_Baurechtvertrag.pdf'; ?>" target="_blank">
+                    <a href="<?php echo base_url().'uploads/VOB_Baurechtvertrag.pdf'; ?>" target="_blank">
                         <span class="hidden-md"><?php _trans('Bauvertrag'); ?></span>
                         <i class="visible-md-inline fa fa-file-text"></i>
                     </a>
