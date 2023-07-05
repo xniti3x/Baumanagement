@@ -96,7 +96,7 @@
                                     <i class="fa fa-print fa-margin"></i> <?php _trans('download_pdf'); ?>
                                 </a>
                             </li>
-                            <?php if($status=='13b'){?> 
+                            <?php if(isset($status) && $status=='13b'){?> 
                             <li>
                                 <a href="<?php echo site_url('invoices/generate_pdf/' . $invoice->invoice_id.'/true/13b_InvoicePlane'); ?>"
                                    target="_blank">

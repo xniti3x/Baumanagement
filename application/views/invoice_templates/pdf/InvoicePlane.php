@@ -173,7 +173,7 @@
 </table>
 
 </main>
-<?php if($invoice->invoice_item_tax_total == 0){echo "<small>Die Umsatzsteuer für den Rechnungsbetrag schuldet der Auftraggeber nach §13b UStG </small>";}?>
+<?php if($invoice->invoice_item_tax_total == 0 && $invoice->invoice_tax_total==0){echo "<small>Die Umsatzsteuer für den Rechnungsbetrag schuldet der Auftraggeber nach §13b UStG </small>";}?>
 <footer>
   <?php if ($invoice->invoice_terms) : ?>
         <div class="notes">
